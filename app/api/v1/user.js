@@ -8,14 +8,13 @@ const User = require('../../models/user')
 
 router.post('/register',async (ctx,next)=>{
     let v = await new RegisterException().validate(ctx)
-    const salt = bcrypt.genSaltSync(10)
-    const pwd = bcrypt.hashSync(v.get('body.password'),salt)
     const user = {
         phone:v.get('body.phone'),
-        password:pwd,
+        password:v.get('body.password'),
         nickname:v.get('body.nickname')
     }
-    const r = await User.create(user)
+    await User.create(user)
+    throw new global.errors.Success()
 })
 
 
