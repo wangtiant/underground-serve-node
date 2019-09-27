@@ -1,13 +1,12 @@
 const Router = require('koa-router')
 const router = new Router()
+const { AuthType } = require('../../lib/enum')
 const { Auth } = require('../../../middlewares/auth')
 const { PositiveIntegerValidator } = require('../../validators/validator')
+const Obituary = require('../../models/obituary')
 
-router.get('/v1/hello',new Auth().m, async(ctx,next)=>{
-    // let v = await new PositiveIntegerValidator().validate(ctx)
-    // ctx.body={
-    //     a:1
-    // }
+router.get('/v1/hello',new Auth(AuthType.USER).m, async(ctx,next)=>{
+    ctx.body = ctx.auth.uid
 })
 
 module.exports = router

@@ -38,6 +38,10 @@ User.init({
             const pwd = bcrypt.hashSync(val,salt)
             this.setDataValue('password',pwd)
         }
+    },
+    auth:{
+        type:Sequelize.STRING,
+        defaultValue:'USER'
     }
 },{sequelize})
 

@@ -11,7 +11,8 @@ router.post('/register',async (ctx,next)=>{
     const user = {
         phone:v.get('body.phone'),
         password:v.get('body.password'),
-        nickname:v.get('body.nickname')
+        nickname:v.get('body.nickname'),
+        auth:v.get('body.auth')
     }
     await User.create(user)
     throw new global.errors.Success()

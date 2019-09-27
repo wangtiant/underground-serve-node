@@ -15,7 +15,7 @@ router.post('/',async (ctx)=>{
              token = await accountLogin(v.get('body.account'),v.get('body.password'))
             break;
         case LoginType.USER_MOBILE:
-
+            //验证手机验证码
             break;
         default:
             throw new global.errors.ParameterException('没有相应的处理函数')
@@ -28,7 +28,7 @@ router.post('/',async (ctx)=>{
 
 async function accountLogin(account,password){
     const user = await User.verifyAccountPassword(account,password)
-    return token = generateToken(user.id, 2)
+    return token = generateToken(user.id, user.auth)
 }
 
 module.exports = router
