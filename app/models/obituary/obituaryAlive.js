@@ -2,9 +2,16 @@ const {sequelize} = require('../../../core/db')
 const {Sequelize, Model} = require('sequelize')
 
 class ObituaryAlive extends Model{
-
+    static async getObituaryList(current=1, size=10){
+        console.log(current)
+        console.log(size)
+        const data = await ObituaryAlive.findAndCountAll({
+            limit: size * 1,
+            offset: size * (current - 1),
+        })
+        return data
+    }
 }
-
 ObituaryAlive.init({
     id:{
         type:Sequelize.INTEGER,

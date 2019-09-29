@@ -60,8 +60,20 @@ class TokenException extends LinValidator{
     }
 }
 
+class ObituaryValidator extends LinValidator{
+    constructor(){
+        super()
+        this.status = [
+            new Rule('isInt','传入正确的状态')
+        ]
+    }
+}
+
+
+
 module.exports = {
     PositiveIntegerValidator,
     RegisterException,
-    TokenException
+    TokenException,
+    ObituaryValidator
 }
