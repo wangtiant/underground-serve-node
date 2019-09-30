@@ -2,10 +2,13 @@ const {sequelize} = require('../../../core/db')
 const {Sequelize, Model} = require('sequelize')
 
 class ObituaryDel extends Model{
-    static async getObituaryList(current=1, size=10){
-        console.log(current)
-        console.log(size)
+    static async getObituaryList(current=1, size=10, name='', genre='', type=''){
         const data = await ObituaryDel.findAndCountAll({
+            where:{
+                name: {
+                    $like: `%${name}%`,
+                  },
+            },
             limit: size * 1,
             offset: size * (current - 1),
         })

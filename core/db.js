@@ -6,7 +6,6 @@ const {
     user,
     password
 } = require('../config/config').database
-
 const sequelize = new Sequelize(dbName, user, password, {
     dialect: 'mysql',
     host,
@@ -21,7 +20,8 @@ const sequelize = new Sequelize(dbName, user, password, {
         updatedAt:'updated_at',
         deletedAt:'deleted_at',
         underscored:true,//将默认的驼峰命名改为下划线命名方式
-    }
+    },
+    query: { raw:true }
 })
 
 sequelize.sync({

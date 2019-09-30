@@ -64,16 +64,40 @@ class ObituaryValidator extends LinValidator{
     constructor(){
         super()
         this.status = [
-            new Rule('isInt','传入正确的状态')
+            new Rule('isInt','传入正确的状态'),
+            new Rule('isLength', '请传入状态', {min: 1})
         ]
     }
 }
 
+class IdValidator extends LinValidator{
+    constructor(){
+        super()
+        this.id = [
+            new Rule('isLength', '请传入id', {min: 1})
+        ]
+    }
+}
+
+class ObituaryDeleteValidator extends LinValidator{
+    constructor(){
+        super()
+        this.id = [
+            new Rule('isLength', '请传入id', {min: 1})
+        ]
+        this.status = [
+            new Rule('isInt','传入正确的状态'),
+            new Rule('isLength', '请传入状态', {min: 1})
+        ]
+    }
+}
 
 
 module.exports = {
     PositiveIntegerValidator,
     RegisterException,
     TokenException,
-    ObituaryValidator
+    ObituaryValidator,
+    IdValidator,
+    ObituaryDeleteValidator
 }

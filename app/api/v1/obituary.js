@@ -8,28 +8,105 @@ const ObituaryAlive = require('../../models/obituary/obituaryAlive')
 const ObituaryLonely = require('../../models/obituary/obituaryLonely')
 const ObituaryInfernal = require('../../models/obituary/obituaryInfernal')
 const ObituaryDel = require('../../models/obituary/obituaryDel')
-const {ObituaryValidator} = require('../../validators/validator')
+const { ObituaryValidator, ObituaryDeleteValidator } = require('../../validators/validator')
 
-router.get('/getList',async(ctx, next)=>{
-    let v = await new ObituaryValidator().validate(ctx)
-    let getObituaryList
-    if(v.get('query.status')===1){
-        getObituaryList = ObituaryAlive.getObituaryList        
-    }else if(v.get('query.status')===2){
-        getObituaryList = ObituaryLonely.getObituaryList
-    }else if(v.get('query.status')===3){
-        getObituaryList = ObituaryInfernal.getObituaryList
-    }else if(v.get('query.status')===4){
-        getObituaryList = ObituaryDel.getObituaryList
-    }else{
-        throw global.error.ParameterException()
-    }
-    const data = await getObituaryList(v.get('query.current'),v.get('query.size'))
+// status:1阳寿未尽 2孤魂野鬼 3地府鬼魂 4已删除
+router.post('/getList',async(ctx, next)=>{
+    const v = await new ObituaryValidator().validate(ctx)
+    const body = v.get('body')
+    const {status,current,size,name,genre,type} = body
+    let getList = getObituaryList(status)
+    const data = await getList(current,size,name,genre,type)
     const reaponseBody = {        
         list:data.rows,
         total:data.count
     }
     ctx.body = reaponseBase.success('',reaponseBody)
 })
+
+router.get('/getInfoById',async(ctx, next)=>{
+    let v = await new ObituaryDeleteValidator().validate(ctx)
+    const query = v.get('query')
+    const {id,status} = query
+    let getInfo = getInfoById(status)
+    const data = await getInfo(id)
+    ctx.body = reaponseBase.success('',data)
+})
+
+router.delete('/deleteById', async(ctx, next)=>{
+    const v = await new ObituaryDeleteValidator().validate(ctx)
+    const body = v.get('body')
+    const {id,status} = body
+    let deletefun = deleteItem(status)    
+    await deletefun(id)
+    ctx.body = reaponseBase.success('已删除','')
+})
+
+router.put('/update', async(ctx, next)=>{
+    const v = await new ObituaryValidator().validate(ctx)
+    const body = v.get('body')
+    const { name, sex, life, type, area} = body
+    
+})
+
+function getObituaryList(status){
+    switch (status) {
+        case 1:
+            return ObituaryAlive.getObituaryList  
+            break;
+        case 2:
+            return ObituaryLonely.getObituaryList  
+            break;
+        case 3:
+            return ObituaryInfernal.getObituaryList  
+            break;
+        case 4:
+            return ObituaryDel.getObituaryList 
+            break;
+        default:
+            throw new global.errors.ParameterException()
+            break;
+    }
+}
+
+function getInfoById(status){
+    switch (status) {
+        case 1:
+            return ObituaryAlive.getItemInfo  
+            break;
+        case 2:
+            return ObituaryLonely.getItemInfo  
+            break;
+        case 3:
+            return ObituaryInfernal.getItemInfo  
+            break;
+        case 4:
+            return ObituaryDel.getItemInfo 
+            break;
+        default:
+            throw new global.errors.ParameterException()
+            break;
+    }
+}
+
+function deleteItem(status){
+    switch (status) {
+        case 1:
+            return ObituaryAlive.deleteItem
+            break;
+        case 2:
+            return ObituaryLonely.deleteItem  
+            break;
+        case 3:
+            return ObituaryInfernal.deleteItem  
+            break;
+        case 4:
+            return ObituaryDel.deleteItem 
+            break;
+        default:
+            throw new global.errors.ParameterException()
+            break;
+    }
+}
 
 module.exports = router
