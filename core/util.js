@@ -45,7 +45,7 @@ const generateToken = function (uid, auth) {
     const expiresIn = global.config.security.expiresIn
     const token = jwt.sign({
         uid,
-        auth:auth|| 'USER'
+        auth:auth||8
     }, secretKey, {
         expiresIn
     })

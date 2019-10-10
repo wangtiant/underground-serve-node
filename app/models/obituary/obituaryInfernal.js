@@ -43,7 +43,17 @@ class obituaryInfernal extends Model{
           }).catch(err => {
             throw new global.errors.NotFound()
           });
-    }    
+    }   
+    
+    //更新
+    static async updateItem(params,id){
+        const data = await obituaryInfernal.update(params,{
+            where:{
+                id:id
+            }
+        })
+        return data
+    }
 }
 
 obituaryInfernal.init({

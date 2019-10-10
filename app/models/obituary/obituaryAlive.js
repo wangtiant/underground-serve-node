@@ -43,6 +43,16 @@ class ObituaryAlive extends Model{
             throw new global.errors.NotFound()
           });
     }
+
+    //更新
+    static async updateItem(params,id){
+        const data = await ObituaryAlive.update(params,{
+            where:{
+                id:id
+            }
+        })
+        return data
+    }
 }
 ObituaryAlive.init({
     id:{

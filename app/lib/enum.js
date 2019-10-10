@@ -14,13 +14,13 @@ const LoginType = {
     isThisType
 }
 
-const AuthType = {
-    USER: 8,
-    ADMIN: 16,
-    isThisType
-}
+// const AuthType = {
+//     USER: 8,
+//     ADMIN: 16,
+//     isThisType
+// }
 
 module.exports = {
     LoginType,
-    AuthType
+    // AuthType
 }

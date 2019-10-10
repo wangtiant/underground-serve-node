@@ -23,7 +23,7 @@ class Auth {
                 }
                 throw new global.errors.Forbbiden(errMsg)
             }
-            if(this.level < AuthType[decode.auth]){
+            if(decode.auth < this.level ){
                 errMsg = '权限不足'
                 throw new global.errors.Forbbiden(errMsg)
             }
@@ -34,6 +34,17 @@ class Auth {
             await next()
         }
     }
+
+      // 验证token是否有效
+      static verifyToken(token) {
+        try {
+            jwt.verify(token, global.config.security.secretKey)
+            return true;
+        } catch (e) {
+            return false
+        }
+    }
+
 }
 
 module.exports = {

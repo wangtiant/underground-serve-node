@@ -37,16 +37,18 @@ router.delete('/deleteById', async(ctx, next)=>{
     const v = await new ObituaryDeleteValidator().validate(ctx)
     const body = v.get('body')
     const {id,status} = body
-    let deletefun = deleteItem(status)    
-    await deletefun(id)
-    ctx.body = reaponseBase.success('已删除','')
+    let deleteFun = deleteItem(status)    
+    await deleteFun(id)
+    ctx.body = reaponseBase.success('删除成功')
 })
 
 router.put('/update', async(ctx, next)=>{
     const v = await new ObituaryValidator().validate(ctx)
     const body = v.get('body')
-    const { name, sex, life, type, area} = body
-    
+    const id = v.get('query.id')
+    let updateFun = updateItem(body.status)
+    const data = await updateFun(body,id)
+    ctx.body = reaponseBase.success('修改成功')
 })
 
 function getObituaryList(status){
@@ -102,6 +104,26 @@ function deleteItem(status){
             break;
         case 4:
             return ObituaryDel.deleteItem 
+            break;
+        default:
+            throw new global.errors.ParameterException()
+            break;
+    }
+}
+
+function updateItem(status){
+    switch (status) {
+        case 1:
+            return ObituaryAlive.updateItem
+            break;
+        case 2:
+            return ObituaryLonely.updateItem  
+            break;
+        case 3:
+            return ObituaryInfernal.updateItem  
+            break;
+        case 4:
+            return ObituaryDel.updateItem 
             break;
         default:
             throw new global.errors.ParameterException()

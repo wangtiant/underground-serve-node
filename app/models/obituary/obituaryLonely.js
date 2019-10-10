@@ -44,6 +44,16 @@ class ObituaryLonely extends Model{
             throw new global.errors.NotFound()
           });
     }
+
+     //更新
+     static async updateItem(params,id){
+        const data = await ObituaryLonely.update(params,{
+            where:{
+                id:id
+            }
+        })
+        return data
+    }
 }
 
 ObituaryLonely.init({
