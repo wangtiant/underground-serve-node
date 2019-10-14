@@ -40,6 +40,7 @@ class ObituaryAlive extends Model{
              });
           }).then(result => {
           }).catch(err => {
+            console.log('事件已回滚')
             throw new global.errors.NotFound()
           });
     }

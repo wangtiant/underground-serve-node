@@ -35,8 +35,8 @@ router.get('/getInfoById',async(ctx, next)=>{
 
 router.delete('/deleteById', async(ctx, next)=>{
     const v = await new ObituaryDeleteValidator().validate(ctx)
-    const body = v.get('body')
-    const {id,status} = body
+    const query = v.get('query')
+    const {id,status} = query
     let deleteFun = deleteItem(status)    
     await deleteFun(id)
     ctx.body = reaponseBase.success('删除成功')

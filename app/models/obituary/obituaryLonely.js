@@ -48,9 +48,7 @@ class ObituaryLonely extends Model{
      //更新
      static async updateItem(params,id){
         const data = await ObituaryLonely.update(params,{
-            where:{
-                id:id
-            }
+            where:{ id:id }
         })
         return data
     }
